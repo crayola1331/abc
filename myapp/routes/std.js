@@ -19,15 +19,11 @@ models.sequelize.sync()
 
   var result = {};
 
-  models.sequelize.query("select * from `gb_std` limit 2").spread((results, metadata) => {
-    if(results[0]["std_num"] == "14011149") {
-      console.log("#######");
-    }
+  models.sequelize.query("select * from `gb_std` limit 10").spread((results, metadata) => {
     result = results[0];
 
-    console.log(results[0]["std_num"]);
     // res.json(results);
-    res.json(result);
+    res.json(results);
     
   });
 });
@@ -45,16 +41,30 @@ router.post('/login', function(req, res, next) {
     process.exit();
   });
 
-  const isRight = false;
+  var result = {};
+  var isRight = false;
 
-  models.sequelize.query("select * from `gb_std`").spread((results, metadata) => {
-    // console.log(results);
-    // res.json(results);
-
-    if(req.body.std_pwd == results[0]["std_pwd"]) {
-      console.log("33333333333333333");
-      res.json(results[0]);
+  models.std.findAll({
+    where : {
+      std_num : req.body.std_num,
+      std_pwd : req.body.std_pwd
     }
+  }).spread(results => {
+    if(results) {
+      result = results.dataValues;
+      result.success = true;
+      delete result.std_pwd;
+
+      res.json(result);
+    } else {
+      result.success = false;
+
+      res.json(result);
+    }
+    
+
+  }).catch(function (err) {
+    console.log(err);
   });
 });
 module.exports = router;
