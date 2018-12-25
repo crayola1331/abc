@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const board = sequelize.define('board', {
-      brd_idx: { field: 'brd_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false },
+      brd_idx: { field: 'brd_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false, autoIncrement: true },
       brd_tm_idx: { field: 'brd_tm_idx', type: DataTypes.INTEGER(11), allowNull: false },
       brd_type: { field: 'brd_type', type: DataTypes.STRING(45), allowNull: false },
       brd_file_adrs: { field: 'brd_file_adrs', type: DataTypes.STRING(45), allowNull: true },

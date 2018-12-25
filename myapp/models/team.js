@@ -1,11 +1,11 @@
 module.exports = function (sequelize, DataTypes) {
     const team = sequelize.define('team', {
-      tm_idx: { field: 'std_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false },
-      tm_sbj_nm: { field: 'std_num', type: DataTypes.STRING(45), allowNull: false },
-      tm_prof_nm: { field: 'std_nm', type: DataTypes.STRING(45), allowNull: false },
-      tm_nm: { field: 'std_major', type: DataTypes.STRING(45), allowNull: false },
-      tm_exp_date: { field: 'std_rate', type: DataTypes.DATE, allowNull: false },
-      tm_mem_idx: { field: 'std_email', type: DataTypes.STRING(100), allowNull: false }
+      tm_idx: { field: 'tm_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false, autoIncrement: true },
+      tm_sbj_nm: { field: 'tm_sbj_nm', type: DataTypes.STRING(45), allowNull: false },
+      tm_prof_nm: { field: 'tm_prof_nm', type: DataTypes.STRING(45), allowNull: false },
+      tm_nm: { field: 'tm_nm', type: DataTypes.STRING(45), allowNull: false },
+      tm_exp_date: { field: 'tm_exp_date', type: DataTypes.DATE, allowNull: false },
+      tm_mem_idx: { field: 'tm_mem_idx', type: DataTypes.STRING(100), allowNull: false }
     }, {
       // don't use camelcase for automatically added attributes but underscore style
       // so updatedAt will be updated_at

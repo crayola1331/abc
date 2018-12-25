@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const std = sequelize.define('std', {
-      std_idx: { field: 'std_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false },
+      std_idx: { field: 'std_idx', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false, autoIncrement: true },
       std_num: { field: 'std_num', type: DataTypes.INTEGER(11), primaryKey: true, allowNull: false },
       std_pwd: { field: 'std_pwd', type: DataTypes.STRING(45), allowNull: false },
       std_nm: { field: 'std_nm', type: DataTypes.STRING(45), allowNull: false },
