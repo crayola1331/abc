@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var teamRouter = require('./routes/team');
 var stdRouter = require('./routes/std');
 var boardRouter = require('./routes/board');
+var expressSession = require('express-session');
+var bodyParser_post = require('body-parser');
 
 var app = express();
 
@@ -21,6 +23,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser_post.urlencoded({ extended: false })); 
+app.use(bodyParser_post.json());
+
 // app.use(express.cookieParser());
 // app.use(express.session({
 //   key: 'sid', // 세션키
@@ -29,6 +34,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     maxAge: 3000 * 60 * 60 // 쿠키 유효기간 3시간
 //   }
 // }));
+
+app.use(expressSession({
+  key: 'sid',                  // 세션키
+  secret: 'my key',           //이때의 옵션은 세션에 세이브 정보를 저장할때 할때 파일을 만들꺼냐
+                              //아니면 미리 만들어 놓을꺼냐 등에 대한 옵션들임
+  resave: true,
+  saveUninitialized:true
+}));
 
 app.use('/', indexRouter);
 app.use('/team', teamRouter);
