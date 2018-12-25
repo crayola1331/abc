@@ -3,11 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var router = require('./routes');
 
-var indexRouter = require('./routes/index');
-var teamRouter = require('./routes/team');
-var stdRouter = require('./routes/std');
-var boardRouter = require('./routes/board');
 var expressSession = require('express-session');
 var bodyParser_post = require('body-parser');
 
@@ -43,10 +40,7 @@ app.use(expressSession({
   saveUninitialized:true
 }));
 
-app.use('/', indexRouter);
-app.use('/team', teamRouter);
-app.use('/std', stdRouter);
-app.use('/board', boardRouter);
+app.use("/api",router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
