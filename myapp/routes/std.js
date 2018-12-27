@@ -32,13 +32,14 @@ router.post('/login', function(req, res, next) {
 
   var result = {};
 
+  // models.sequelize.query("select * from gb_std limit 1")
   models.std.findAll({
     where : {
       std_num : req.body.std_num,
       std_pwd : req.body.std_pwd
     }
-  }).spread(results => {
-
+  }).spread((results,metadata) => {
+    console.log(results);
     if(results) {
       result = results.dataValues;
       result.success = true;
