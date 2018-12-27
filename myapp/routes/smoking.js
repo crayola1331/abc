@@ -11,17 +11,27 @@ router.get('/', function(req, res, next) {
     type: models.sequelize.QueryTypes.SELECT
         }).then((results, metadata) => {
         result = results[0];
-
+        
         res.json(result);
+
     });
 });
 
 router.post('/', function(req, res, next) {
 
+    models.sequelize.query(`insert into \`sjsmoking\`values(${req.query.location}, ${req.query.smoke}, ${req.query.acCount},sysdate())`,  {
+        type: models.sequelize.QueryTypes.INSERT
+    }).then((results, metadata) => {
+        res.end();
+    });
+});
+
+router.put('/', function(req, res, next) {
+
     models.sequelize.query(`update \`sjsmoking\` set location=${req.query.location}, smoke=${req.query.smoke}`,  {
         type: models.sequelize.QueryTypes.UPDATE
     }).then((results, metadata) => {
-        
+        res.end();
     });
 });
 
