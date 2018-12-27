@@ -7,7 +7,7 @@ var models = require('../models');
 router.get('/', function(req, res, next) {
     var result = {};
 
-    models.sequelize.query("select location, smoke from `sjsmoking`",  {
+    models.sequelize.query("select location, smoke from `sjsmoking` where date is not null",  {
     type: models.sequelize.QueryTypes.SELECT
         }).then((results, metadata) => {
         result = results[0];
