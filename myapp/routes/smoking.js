@@ -17,6 +17,19 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/all', function(req, res, next) {
+    var result = {};
+
+    models.sequelize.query("select * from `sjsmoking`",  {
+    type: models.sequelize.QueryTypes.SELECT
+        }).then((results, metadata) => {
+        result = results[0];
+        
+        res.json(results);
+
+    });
+});
+
 router.post('/', function(req, res, next) {
 
     models.sequelize.query(`insert into \`sjsmoking\`values(${req.query.location}, ${req.query.smoke}, ${req.query.acCount},sysdate())`,  {
