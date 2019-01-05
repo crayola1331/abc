@@ -2,7 +2,7 @@
   "development": {
     "username": "last",
     "password": "1234",
-    "database": "young",
+    "database": "beta",
     "host": "112.149.167.79",
     "port": "3306",
     "dialect": "mysql"
