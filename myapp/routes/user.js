@@ -34,7 +34,8 @@ router.post('/', function(req, res, next) {
           // res.setHeader("Content-Type", "text/html");
           // res.statusCode = 200;
           res.cookie('access_token', data, {
-            maxAge: 1000000
+            maxAge: 1000000,
+            domain: 'localhost:3000'
           });
           res.send('sdfsdfds');
           // res.json(200,{
