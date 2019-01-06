@@ -35,9 +35,10 @@ router.post('/', function(req, res, next) {
           // res.statusCode = 200;
           res.cookie('access_token', data, {
             maxAge: 1000000,
-            domain: 'http://localhost:3000'
-          });
-          res.send('sdfsdfds');
+            domain: 'http://localhost:3000',
+            httpOnly: true
+          }).send('asdfasdf');
+          // )res.send('sdfsdfds');
           // res.json(200,{
           //   success: true
           // })
