@@ -15,7 +15,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/check', function(req, res, next) {
-  const a = req.cookie.access_token;
+  console.log("chekchekhkchkdh3ek");
+  const a = req.cookies.access_token;
   console.log('a',a);
   res.end('a');
 });
@@ -34,7 +35,8 @@ router.post('/', function(req, res, next) {
           // res.setHeader("Content-Type", "text/html");
           // res.statusCode = 200;
           res.cookie('access_token', data, {
-            maxAge: 1000000
+            maxAge: 1000000,
+            httpOnly: true
           }).send('asdfasdf');
           // )res.send('sdfsdfds');
           // res.json(200,{
