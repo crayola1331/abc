@@ -22,7 +22,7 @@ var app = express();
 //   store:new FileStore()
 // }))
 
-app.use(cors({ credentials: true }));
+app.use(cors({ origin:'http://localhost:3000',credentials: true }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
