@@ -1,27 +1,28 @@
 var express = require('express');
 var router = express.Router();
-
 var models = require('../models');
-var getToken = require('../jwt/getToken');
-var verifyToken = require('../jwt/verifyToken');
+
+const makeRequest = async () => 'done:))';
 
 // index 페이지(테스트용)
 router.get('/', async function(req, res, next) {
-  const result = await models.sequelize.query('select * from `user` limit 1', {
-    type: models.sequelize.QueryTypes.SELECT,
-  });
-  res.end(result[0].usr_id);
+  const a = await makeRequest();
+  console.log('result a:', a);
+  res.end('hello');
+  // const result = await models.sequelize.query('select * from `user` limit 1', {
+  //   type: models.sequelize.QueryTypes.SELECT,
+  // });
+  // res.end(result[0].usr_id);
 });
 
 // GET 로컬 로그인 상태 확인
 router.get('/check/:id', async function(req, res, next) {
   const id = req.params.id;
-  const token = req.cookies.access_token;
+  const usrId = req.session.usrId;
   try {
-    const decoded = await verifyToken(token);
-    if (id === decoded) {
-      res.json({
-        success: 'true',
+    if (id === usrId) {
+      res.json(200, {
+        userId: usrId,
       });
     }
   } catch (error) {
@@ -41,21 +42,16 @@ router.post('/', async function(req, res, next) {
         type: models.sequelize.QueryTypes.SELECT,
       },
     );
-    if (Object.keys(results).length) {
-      const token = await getToken({ usr_id: results[0].usr_id });
-      res.cookie('access_token', token, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-        httpOnly: true,
-      });
-      res.json(200, {
-        success: true,
-        userId: results[0].usr_id,
-      });
-    } else {
-      res.json(400, {
-        success: false,
-      });
+    if (!results.length) {
+      res.status(403).end();
+      return;
     }
+    console.log('req.session 1', req.session);
+    req.session.usrId = results[0].usr_id;
+    console.log('req.session 2', req.session);
+    res.json(200, {
+      userId: results[0].usr_id,
+    });
   } catch (error) {
     error.status = 403;
     next(error);
@@ -63,11 +59,9 @@ router.post('/', async function(req, res, next) {
 });
 
 // POST 로그아웃
-router.post('/logout', function(req, res, next) {
-  res.cookie('access_token', null, {
-    maxAge: 0,
-    httpOnly: true,
-  });
+router.post('/logout', function(req, res) {
+  req.session.destroy();
+  res.clearCookie('sid');
   res.status(204).end();
 });
 

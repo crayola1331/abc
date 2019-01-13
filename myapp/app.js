@@ -6,8 +6,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var router = require('./routes');
-var token = require('./lib/token');
-var expressSession = require('express-session');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var bodyParser_post = require('body-parser');
 
 var app = express();
@@ -39,14 +39,19 @@ app.use(bodyParser_post.urlencoded({ extended: false }));
 app.use(bodyParser_post.json());
 
 app.use(cookieParser());
-// app.use(express.session({
-//   key: 'sid', // 세션키
-//   secret: 'secret', // 비밀키
-//   cookie: {
-//     maxAge: 3000 * 60 * 60 // 쿠키 유효기간 3시간
-//   }
-// }));
-app.use(token.jwtMiddleware);
+app.use(
+  session({
+    key: 'sid', // 세션키
+    secret: 'secret', // 비밀키
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 3000 * 60 * 60, // 쿠키 유효기간 3시간
+    },
+    store: new RedisStore({ host: '127.0.0.1', port: 6379, logErrors: true }),
+  }),
+);
+
 app.use('/api', router);
 
 // catch 404 and forward to error handler
