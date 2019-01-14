@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+require('dotenv').config();
 var favicon = require('serve-favicon');
 var cors = require('cors');
 var path = require('path');
