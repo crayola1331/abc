@@ -3,6 +3,8 @@ var getToken = require('../jwt/getToken');
 // 토큰기간 갱신
 exports.jwtMiddleware = async function(req, res, next) {
   const token = req.cookies.access_token;
+  console.log('console.log(!token);', token);
+  console.log(!token);
   if (!token) return next();
   try {
     const decoded = await verifyToken(token);

@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var router = require('./routes');
 var token = require('./lib/token');
-var expressSession = require('express-session');
+var session = require('express-session');
 var bodyParser_post = require('body-parser');
 
 var app = express();
@@ -33,20 +33,24 @@ app.use(
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser_post.urlencoded({ extended: false }));
 app.use(bodyParser_post.json());
 
 app.use(cookieParser());
-// app.use(express.session({
-//   key: 'sid', // 세션키
-//   secret: 'secret', // 비밀키
-//   cookie: {
-//     maxAge: 3000 * 60 * 60 // 쿠키 유효기간 3시간
-//   }
-// }));
+app.use(
+  session({
+    key: 'sid', // 세션키
+    secret: 'secret', // 비밀키
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 3000 * 60 * 60, // 쿠키 유효기간 3시간
+    },
+  }),
+);
+// app.use(flash());
 app.use(token.jwtMiddleware);
 app.use('/api', router);
 
@@ -59,6 +63,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   console.log('@@@@@@@에러핸들러 입장@@@@@@@@@');
+  console.log('err msg', err);
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

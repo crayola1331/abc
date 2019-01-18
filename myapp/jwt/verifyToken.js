@@ -6,7 +6,7 @@ const verifyToken = function(token) {
       if (err) {
         reject(err);
       }
-      resolve(decoded.usr_id);
+      resolve(decoded);
     });
   });
 };

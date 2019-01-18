@@ -3,7 +3,7 @@
 # environment
 # /.vscode
 # /config
-# .env 
+.env 
 
 # dependencies
 /node_modules
